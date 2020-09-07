@@ -1,14 +1,15 @@
 import React from 'react'
+import { Statistic } from './Statistic'
 
 
 export const Statistics = ({ good, neutral, bad }) => {
     return (
         <div>
-            <div>good: {good}</div>
-            <div>neutral: {neutral}</div>
-            <div>bad: {bad}</div>
+            <Statistic type="good" number={good}></Statistic>
+            <Statistic type="neutral" number={neutral}></Statistic>
+            <Statistic type="bad" number={bad}></Statistic>
             {good && bad && neutral ?
-                <div>average: {good + bad * -1 / (good + neutral + bad)}</div> :
+                <Statistic type="average" number={good + bad * -1 / (good + neutral + bad)}></Statistic> :
                 <div>No feedback</div>
             }
         </div >)
