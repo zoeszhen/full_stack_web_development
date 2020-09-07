@@ -3,7 +3,8 @@ import React from 'react'
 
 export const Statistic = ({ type, number }) => {
     return (
-        <div>
-            <div>{type}: {number}</div>
-        </div >)
+        <tr>
+            <td>{type}</td>
+            <td>{number}</td>
+        </tr >)
 }
