@@ -7,6 +7,9 @@ export const Statistics = ({ good, neutral, bad }) => {
             <div>good: {good}</div>
             <div>neutral: {neutral}</div>
             <div>bad: {bad}</div>
-            <div>average: {good + bad * -1 / (good + neutral + bad)}</div>
+            {good && bad && neutral ?
+                <div>average: {good + bad * -1 / (good + neutral + bad)}</div> :
+                <div>No feedback</div>
+            }
         </div >)
 }
