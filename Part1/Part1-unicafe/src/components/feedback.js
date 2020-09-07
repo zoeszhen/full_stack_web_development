@@ -9,11 +9,14 @@ export const Feedback = () => {
 
     }
 
+    const { good, neutral, bad } = feedback;
+
     return (
         <div>
-            <div>good: {feedback.good}</div>
-            <div>neutral: {feedback.neutral}</div>
-            <div>bad: {feedback.bad}</div>
+            <div>good: {good}</div>
+            <div>neutral: {neutral}</div>
+            <div>bad: {bad}</div>
+            <div>average: {good + bad * -1 / (good + neutral + bad)}</div>
             <div>
                 <button onClick={() => update("good")}>good</button>
                 <button onClick={() => update("neutral")}>neutral</button>
