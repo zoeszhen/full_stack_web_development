@@ -16,7 +16,11 @@ const App = () => {
         <div>
           <button type="submit" onClick={(e) => {
             e.preventDefault()
-            setPersons((prevState) => [...prevState, { name: newName }])
+            if (persons.map(({ name }) => name).includes(newName)) {
+              window.alert(`${newName} is already added to phonebook`)
+            } else {
+              setPersons((prevState) => [...prevState, { name: newName }])
+            }
             setNewName("")
           }}>add</button>
         </div>
@@ -27,7 +31,7 @@ const App = () => {
           persons.map(({ name }) => <div>{name}</div>)
         }
       </div>
-    </div>
+    </div >
   )
 
 }
