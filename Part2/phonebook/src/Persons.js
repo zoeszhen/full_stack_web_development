@@ -3,6 +3,6 @@ export const Persons = ({ persons, filter }) => <div>
     {
         persons
             .filter(({ name }) => name.toLocaleLowerCase().includes(filter.toLocaleLowerCase()))
-            .map(({ name }) => <div>{name}</div>)
+            .map(({ name }) => <div key={name}>{name}</div>)
     }
 </div>
