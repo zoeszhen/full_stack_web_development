@@ -1,4 +1,7 @@
 import React, { useState } from 'react'
+import { Filter } from './Filter'
+import { PersonForm } from './PersonForm'
+import { Persons } from './Persons'
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -15,37 +18,17 @@ const App = () => {
   return (
     <div>
       <h2>PhoneBook</h2>
-      <div>
-        filter shown with <input value={filter} onChange={(e) => setFilter(e.target.value)} />
-      </div>
+      <Filter filter={filter} setFilter={setFilter}></Filter>
       <h2>add a new</h2>
-      <form>
-        <div>
-          name: <input value={newName} onChange={(e) => setNewName(e.target.value)} />
-        </div>
-        <div>
-          number: <input value={newNumber} onChange={(e) => setNewNumber(e.target.value)} />
-        </div>
-        <div>
-          <button type="submit" onClick={(e) => {
-            e.preventDefault()
-            if (persons.map(({ name }) => name).includes(newName)) {
-              window.alert(`${newName} is already added to phonebook`)
-            } else {
-              setPersons((prevState) => [...prevState, { name: newName, number: newNumber }])
-            }
-            setNewName("")
-          }}>add</button>
-        </div>
-      </form>
+      <PersonForm newName={newName}
+        setNewName={setNewName}
+        newNumber={newNumber}
+        setNewNumber={setNewNumber}>
+        persons={persons}
+        setPersons={setPersons}
+      </PersonForm>
       <h2>Numbers</h2>
-      <div>
-        {
-          persons
-            .filter(({ name }) => name.toLocaleLowerCase().includes(filter.toLocaleLowerCase()))
-            .map(({ name }) => <div>{name}</div>)
-        }
-      </div>
+      <Persons persons={persons} filter={filter}></Persons>
     </div >
   )
 
