@@ -3,21 +3,27 @@ import axios from 'axios'
 import { Filter } from './Filter'
 import { PersonForm } from './PersonForm'
 import { Persons } from './Persons'
+import {getContact, savePerson} from "./service";
 
 const App = () => {
   const [persons, setPersons] = useState([])
-
-  useEffect(() => {
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        setPersons(response.data)
-      })
-  }, [])
-
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
+
+  useEffect(() => {
+    const fetchPersons = async () => {
+      const contact = await getContact();
+      setPersons(contact)
+    };
+
+    fetchPersons();
+  }, [])
+
+  const saveContact= async (contact) => {
+    const newContact = await savePerson(contact);
+    setPersons((prevState) => [...prevState, contact])
+  }
 
   return (
     <div>
@@ -27,9 +33,9 @@ const App = () => {
       <PersonForm newName={newName}
         setNewName={setNewName}
         newNumber={newNumber}
-        setNewNumber={setNewNumber}>
+        setNewNumber={setNewNumber}
         persons={persons}
-        setPersons={setPersons}
+        saveContact={saveContact}>
       </PersonForm>
       <h2>Numbers</h2>
       <Persons persons={persons} filter={filter}></Persons>

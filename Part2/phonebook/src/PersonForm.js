@@ -1,5 +1,5 @@
 import React from 'react'
-export const PersonForm = ({ newName, setNewName, newNumber, setNewNumber, persons, setPersons }) =>
+export const PersonForm = ({ newName, setNewName, newNumber, setNewNumber, persons, saveContact }) =>
     <form>
         <div>
             name: <input value={newName} onChange={(e) => setNewName(e.target.value)} />
@@ -13,9 +13,14 @@ export const PersonForm = ({ newName, setNewName, newNumber, setNewNumber, perso
                 if (persons.map(({ name }) => name).includes(newName)) {
                     window.alert(`${newName} is already added to phonebook`)
                 } else {
-                    setPersons((prevState) => [...prevState, { name: newName, number: newNumber }])
+                    saveContact({
+                        id:persons.length+2,
+                        name: newName,
+                        number:newNumber
+                    })
                 }
-                setNewName("")
+                setNewName("");
+                setNewNumber("");
             }}>add</button>
         </div>
     </form>
