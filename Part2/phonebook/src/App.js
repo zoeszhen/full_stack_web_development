@@ -3,7 +3,7 @@ import axios from 'axios'
 import { Filter } from './Filter'
 import { PersonForm } from './PersonForm'
 import { Persons } from './Persons'
-import {getContact, savePerson} from "./service";
+import {get, save, remove} from "./service";
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -13,7 +13,7 @@ const App = () => {
 
   useEffect(() => {
     const fetchPersons = async () => {
-      const contact = await getContact();
+      const contact = await get();
       setPersons(contact)
     };
 
@@ -21,8 +21,14 @@ const App = () => {
   }, [])
 
   const saveContact= async (contact) => {
-    const newContact = await savePerson(contact);
-    setPersons((prevState) => [...prevState, contact])
+    const newContact = await save(contact);
+    setPersons((prevState) => [...prevState, newContact])
+  }
+  
+  const deletePerson = async (personId) =>{
+    await remove(personId)
+    console.log("pers",persons.filter(({id})=> id !== personId ))
+    setPersons(persons.filter(({id})=> id !== personId ))
   }
 
   return (
@@ -38,7 +44,7 @@ const App = () => {
         saveContact={saveContact}>
       </PersonForm>
       <h2>Numbers</h2>
-      <Persons persons={persons} filter={filter}></Persons>
+      <Persons persons={persons} filter={filter} deletePerson={deletePerson}></Persons>
     </div >
   )
 
