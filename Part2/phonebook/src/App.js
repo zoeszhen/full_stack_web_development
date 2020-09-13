@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react'
-import axios from 'axios'
+upimport React, { useState, useEffect } from 'react'
 import { Filter } from './Filter'
 import { PersonForm } from './PersonForm'
 import { Persons } from './Persons'
-import {get, save, remove} from "./service";
+import { get, save, remove, update } from "./service"
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -20,15 +19,29 @@ const App = () => {
     fetchPersons();
   }, [])
 
-  const saveContact= async (contact) => {
-    const newContact = await save(contact);
-    setPersons((prevState) => [...prevState, newContact])
+  const saveContact = async (contact) => {
+    const samePerson = persons.filter(({ name }) => contact.name === name);
+    if (samePerson.length > 0) {
+      if (window.confirm("Do you really want to replace the contact?")) {
+        const newContact = await update({
+          id: samePerson[0].id,
+          name: samePerson[0].name,
+          number: contact.number
+        });
+        setPersons(persons.map((person) => person.name === newContact.name ? newContact : person))
+      }
+    } else {
+      const newContact = await save(contact);
+      setPersons((prevState) => [...prevState, contact])
+    }
   }
-  
-  const deletePerson = async (personId) =>{
-    await remove(personId)
-    console.log("pers",persons.filter(({id})=> id !== personId ))
-    setPersons(persons.filter(({id})=> id !== personId ))
+
+  const deletePerson = async (personId) => {
+    if (window.confirm("Do you really want to delete the contact?")) {
+      await remove(personId)
+      setPersons(persons.filter(({ id }) => id !== personId))
+    }
+
   }
 
   return (

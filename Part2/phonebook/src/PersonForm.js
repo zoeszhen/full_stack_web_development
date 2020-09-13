@@ -10,15 +10,11 @@ export const PersonForm = ({ newName, setNewName, newNumber, setNewNumber, perso
         <div>
             <button type="submit" onClick={(e) => {
                 e.preventDefault()
-                if (persons.map(({ name }) => name).includes(newName)) {
-                    window.alert(`${newName} is already added to phonebook`)
-                } else {
-                    saveContact({
-                        id:persons.length+2,
-                        name: newName,
-                        number:newNumber
-                    })
-                }
+                saveContact({
+                    id: newNumber + newName,
+                    name: newName,
+                    number: newNumber
+                })
                 setNewName("");
                 setNewNumber("");
             }}>add</button>
